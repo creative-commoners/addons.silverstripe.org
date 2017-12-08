@@ -48,7 +48,9 @@ class AddonBuilder
                 $packageVersion->getVersionNormalized(),
                 $packageVersion->getVersion()
             );
-            $package->setExtra($packageVersion->getExtra());
+            if ($extra = $packageVersion->getExtra()) {
+                $package->setExtra($extra);
+            }
             if ($source = $packageVersion->getSource()) {
                 $package->setSourceUrl($source->getUrl());
                 $package->setSourceType($source->getType());
@@ -63,6 +65,7 @@ class AddonBuilder
             $this->download($package, $path);
             $this->buildReadme($addon, $path);
             $this->buildScreenshots($addon, $package, $path);
+            $this->rateModule($addon, $path);
         }
 
         $addon->LastBuilt = $time;
@@ -283,5 +286,29 @@ class AddonBuilder
                 $addon->Screenshots()->add($file);
             }
         }
+    }
+
+    /**
+     * Use the Rating check runner to generate an automated rating for this module
+     *
+     * @param Addon $addon
+     * @param string $modulePath
+     */
+    protected function rateModule(Addon $addon, $modulePath)
+    {
+        $suite = new \SilverStripe\Addons\Services\Rating\CheckSuite();
+        $suite->setModuleRoot($modulePath);
+        $repositoryUrl = $addon->Repository;
+        // Get repository slug from URL
+        preg_match('~.*\/(.+\/.+)(?:\.git)?$~', $repositoryUrl, $matches);
+        $suite->setRepositorySlug(!empty($matches[1]) ? $matches[1] : '');
+
+        /** @var int $result $score */
+        $score = $suite->run();
+        /** @var array $details */
+        $details = $suite->getCheckDetails();
+
+        $addon->Rating = $suite->getScore();
+        $addon->RatingDetails = Convert::raw2json($details);
     }
 }

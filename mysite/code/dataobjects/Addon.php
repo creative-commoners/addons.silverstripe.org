@@ -22,12 +22,13 @@ class Addon extends DataObject
         'LastUpdated'       => 'SS_Datetime',
         'LastBuilt'         => 'SS_Datetime',
         'BuildQueued'       => 'Boolean',
-        'HelpfulRobotData'  => 'Text',
-        'HelpfulRobotScore' => 'Int',
+        'Rating'            => 'Int',
+        'RatingDetails'     => 'Text',
     );
 
     public static $has_one = array(
-        'Vendor' => 'AddonVendor'
+        'Vendor' => 'AddonVendor',
+        'Rating' => 'AddonRating',
     );
 
     public static $has_many = array(

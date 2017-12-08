@@ -1,0 +1,17 @@
+---
+Name: silverstriperatings
+---
+SilverStripe\Addons\Services\Rating\CheckSuite:
+  checks:
+    - SilverStripe\Addons\Services\Rating\Check\CodeCoverageGoodCheck
+    - SilverStripe\Addons\Services\Rating\Check\CodeCoverageGreatCheck
+    - SilverStripe\Addons\Services\Rating\Check\CodeOfConductFileCheck
+    - SilverStripe\Addons\Services\Rating\Check\CodeOrSrcFolderCheck
+    - SilverStripe\Addons\Services\Rating\Check\CodingStandardCheck
+    - SilverStripe\Addons\Services\Rating\Check\ContributingFileCheck
+    - SilverStripe\Addons\Services\Rating\Check\EditorConfigFileCheck
+    - SilverStripe\Addons\Services\Rating\Check\GitAttributesFileCheck
+    - SilverStripe\Addons\Services\Rating\Check\LicenseCheck
+    - SilverStripe\Addons\Services\Rating\Check\ReadmeCheck
+    - SilverStripe\Addons\Services\Rating\Check\ScrutinizerCheck
+    - SilverStripe\Addons\Services\Rating\Check\TravisCheck
